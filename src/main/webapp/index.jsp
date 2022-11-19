@@ -1,5 +1,6 @@
 <html>
 <body>
-<a href="welcome">Click here to go next...</a>
+<a href="customerform">Addcustomer</a>
+<a href="viewcustomer">Viewcustomer</a>
 </body>
 </html>
