@@ -2,12 +2,16 @@ package com.karan.springmvc.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import com.karan.springmvc.model.customer;
@@ -19,6 +23,16 @@ public class customerDaoImpl implements customerDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	private JdbcTemplate jdbcTemplate1;
+	
+	public void setJdbcTemplate(DriverManagerDataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);		
+	}
+	public void setJdbcTemplate1(DriverManagerDataSource dataSource) {
+		this.jdbcTemplate1 = new JdbcTemplate(dataSource);		
+	}
+
 	public List<customer> customer_dtls() {				
 		String sql = "SELECT id,first_name,last_name,email FROM customer";
 		List<customer> cst=jdbcTemplate.query(sql, new customerResultSetExtractor());
@@ -66,4 +80,20 @@ public class customerDaoImpl implements customerDao {
 		jdbcTemplate.update(sql,id);
 		
 	}
+	
+	public List<String> getusers(){
+		String sql ="SELECT * from dir_users";
+		return jdbcTemplate1.queryForObject(sql, new RowMapper<List<String>>() {
+			public List<String> mapRow(ResultSet rs,int rown) throws SQLException {
+				List<String> newlist = new ArrayList<>();
+					String name = "";
+						while(rs.next()) {
+							name=rs.getString("user_id");
+							newlist.add(name);
+						}
+				return newlist;
+			}
+		});
+		
+	}	
 }

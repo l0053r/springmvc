@@ -15,5 +15,7 @@ public interface customerService {
 	void updateCustomer(customer cust);
 	
 	void deleteCustomer(int id);
+	
+	List<String> getlist();
 
 }

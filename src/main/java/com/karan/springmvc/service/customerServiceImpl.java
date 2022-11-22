@@ -37,5 +37,10 @@ public class customerServiceImpl implements customerService {
 	public void deleteCustomer(int id) {
 		customerDaoImpl.deleteCustomer(id);
 	}
+	
+	@Override
+	public List<String> getlist() {
+		return customerDaoImpl.getusers();
+	}
 
 }

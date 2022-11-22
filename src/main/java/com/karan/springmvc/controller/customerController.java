@@ -1,5 +1,6 @@
 package com.karan.springmvc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,5 +61,13 @@ public class customerController {
 	public String deletecustomerbyid(@PathVariable int id,Model model) {
 		customerServiceImpl.deleteCustomer(id);
 		return "redirect:/viewcustomer";
+	}
+	
+	@RequestMapping("/op")
+	public String getop(Model model) {		
+		List<String> list = new ArrayList<String>();
+		list = customerServiceImpl.getlist(); 
+		model.addAttribute("list",list);
+		return "test";
 	}
 }

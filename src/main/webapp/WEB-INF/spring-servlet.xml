@@ -26,7 +26,16 @@
 		<property name="username" value="postgres" />
 		<property name="password" value="root" />
 	</bean>
+	<bean id="dataSource1" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/op" />
+		<property name="username" value="postgres" />
+		<property name="password" value="root" />
+	</bean>
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="jdbcTemplate1" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource1" />
 	</bean>
     </beans>
