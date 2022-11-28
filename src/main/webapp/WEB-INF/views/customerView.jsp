@@ -18,6 +18,10 @@
 					<th>FirstName</th>
 					<th>LastName</th>
 					<th>Email</th>
+					<th>Gender</th>
+					<th>Food</th>
+					<th>CityFrom</th>
+					<th>CityTo</th>
 					<th>Action</th>
 				</tr>
 				<c:forEach var="cust" items="${customerlist }">
@@ -26,6 +30,13 @@
 						<td>${cust.first_name }</td>
 						<td>${cust.last_name }</td>
 						<td>${cust.email }</td>
+						<td>${cust.gender }</td>
+						<td><c:forEach var="meals" items="${cust.food }">
+							${meals }<br>
+						</c:forEach>
+						</td>
+						<td>${cust.cityFrom }</td>
+						<td>${cust.cityTo }</td>
 						<td><a href="editcust/${cust.id}">Edit</a><br>
 						<a href="deletecust/${cust.id}">Delete</a></td>
 					</tr>					

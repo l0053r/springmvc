@@ -34,15 +34,15 @@ public class customerDaoImpl implements customerDao {
 	}
 
 	public List<customer> customer_dtls() {				
-		String sql = "SELECT id,first_name,last_name,email FROM customer";
+		String sql = "SELECT id,first_name,last_name,email,gender,food,cityfrom,cityto FROM customer";
 		List<customer> cst=jdbcTemplate.query(sql, new customerResultSetExtractor());
 		return cst;
 	}
 
 	public int addCustomer(customer cmr) {
 		int k=0;
-		String sql = "INSERT INTO customer(first_name,last_name,email) values(?,?,?)";
-		Object[] arg = {cmr.getFirst_name(),cmr.getLast_name(),cmr.getEmail()};
+		String sql = "INSERT INTO customer(first_name,last_name,email,gender,food,cityfrom,cityto) values(?,?,?,?,?,?,?)";
+		Object[] arg = {cmr.getFirst_name(),cmr.getLast_name(),cmr.getEmail(),cmr.getGender(),cmr.getFood(),cmr.getCityFrom(),cmr.getCityTo()};
 		k = jdbcTemplate.update(sql, arg);
 		return k;
 	}

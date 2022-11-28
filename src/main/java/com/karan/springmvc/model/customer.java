@@ -5,6 +5,10 @@ public class customer {
 	private String first_name;
 	private String last_name;
 	private String email;
+	private String Gender;
+	private String[] food;
+	private String cityFrom;
+	private String cityTo;
 	
 	public int getId() {
 		return id;
@@ -29,6 +33,30 @@ public class customer {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getGender() {
+		return Gender;
+	}
+	public void setGender(String gender) {
+		Gender = gender;
+	}
+	public String[] getFood() {
+		return food;
+	}
+	public void setFood(String[] food) {
+		this.food = food;
+	}
+	public String getCityFrom() {
+		return cityFrom;
+	}
+	public void setCityFrom(String cityFrom) {
+		this.cityFrom = cityFrom;
+	}
+	public String getCityTo() {
+		return cityTo;
+	}
+	public void setCityTo(String cityTo) {
+		this.cityTo = cityTo;
 	}
 	
 }

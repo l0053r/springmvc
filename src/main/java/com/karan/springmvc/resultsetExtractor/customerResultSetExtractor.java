@@ -19,7 +19,18 @@ public class customerResultSetExtractor implements ResultSetExtractor<List<custo
 			cst.setId(rs.getInt("id"));
 			cst.setFirst_name(rs.getString("first_name"));
 			cst.setLast_name(rs.getString("last_name"));
-			cst.setEmail(rs.getString("email"));			
+			cst.setEmail(rs.getString("email"));
+			cst.setGender(rs.getString("gender"));
+			String food = rs.getString("food");			
+			String[] lst = null;
+			if(food != null) {
+				food.replace('{', ' ');
+				food.replace('}', ' ');
+				lst = food.split(",");
+			}
+			cst.setFood(lst);
+			cst.setCityFrom(rs.getString("cityfrom"));
+			cst.setCityTo(rs.getString("cityto"));
 			customerList.add(cst);
 		}
 		

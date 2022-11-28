@@ -24,6 +24,34 @@
 			<td><form:input path="email"/></td>
 		</tr>
 		<tr>
+		<tr>
+			<td>Gender:</td>
+			<td>Male<form:radiobutton path="gender" value="Male"/></td>
+			<td>Female<form:radiobutton path="gender" value="Female"/></td>
+		</tr>
+		<tr>
+			<td>Meals:</td>
+			<td>BreakFast<form:checkbox path="food" value="BreakFast"/></td>
+			<td>Lunch<form:checkbox path="food" value="Lunch"/></td>
+			<td>Dinner<form:checkbox path="food" value="Dinner"/></td>
+		</tr>
+		<tr>
+			<td>From:</td>
+			<td><form:select path="cityFrom" > 
+				<form:option value="Hyderabad" lable="Hyderabad"></form:option>
+				<form:option value="Karminagar" lable="Karimnagar"></form:option>
+				<form:option value="Jagtial" lable="Jagtial"></form:option>
+			</form:select></td>
+		</tr>
+		<tr>
+			<td>To:</td>
+			<td><form:select path="cityTo" > 
+				<form:option value="Hyderabad" lable="Hyderabad"></form:option>
+				<form:option value="Karminagar" lable="Karimnagar"></form:option>
+				<form:option value="Jagtial" lable="Jagtial"></form:option>
+			</form:select></td>
+		</tr>
+		<tr>
 			<td></td>
 			<td><input type="submit" value="Save"></td>
 		</tr>
