@@ -1,11 +1,11 @@
 package com.karan.springmvc.dao;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -38,11 +38,16 @@ public class customerDaoImpl implements customerDao {
 		List<customer> cst=jdbcTemplate.query(sql, new customerResultSetExtractor());
 		return cst;
 	}
-
-	public int addCustomer(customer cmr) {
+	
+	@Override
+	public int addCustomer(customer cmr) throws IOException {
 		int k=0;
-		String sql = "INSERT INTO customer(first_name,last_name,email,gender,food,cityfrom,cityto) values(?,?,?,?,?,?,?)";
-		Object[] arg = {cmr.getFirst_name(),cmr.getLast_name(),cmr.getEmail(),cmr.getGender(),cmr.getFood(),cmr.getCityFrom(),cmr.getCityTo()};
+		byte[] photByte = cmr.getFile().getBytes();
+		String food = Arrays.toString(cmr.getFood());
+		food = food.replace("[", "");
+		food = food.replace("]", "");
+		String sql = "INSERT INTO customer(first_name,last_name,email,gender,food,cityfrom,cityto,profile) values(?,?,?,?,?,?,?,?)";
+		Object[] arg = {cmr.getFirst_name(),cmr.getLast_name(),cmr.getEmail(),cmr.getGender(),food,cmr.getCityFrom(),cmr.getCityTo(),photByte};
 		k = jdbcTemplate.update(sql, arg);
 		return k;
 	}
@@ -69,9 +74,23 @@ public class customerDaoImpl implements customerDao {
 	}
 
 	@Override
-	public void updateCustomer(customer cust) {
-		String sql = "UPDATE customer SET first_name=?,last_name=?,email=? WHERE id=?";
-		jdbcTemplate.update(sql,cust.getFirst_name(),cust.getLast_name(),cust.getEmail(),cust.getId());
+	public void updateCustomer(customer cust) throws IOException {
+		String food = Arrays.toString(cust.getFood());
+		food = food.replace("[", "");
+		food = food.replace("]", "");
+		String sql = "UPDATE customer SET first_name=?,last_name=?,email=?,gender=?,food=?,cityfrom=?,cityto=?";
+		System.out.println(cust.getFile());
+		byte [] imageByte = null;
+		if(cust.getFile()!=null) {
+			imageByte = cust.getFile().getBytes();
+			sql = sql +",profile=?";			
+		};
+		sql= sql+" WHERE id=?";
+		if(cust.getFile()!=null) {
+			jdbcTemplate.update(sql,cust.getFirst_name(),cust.getLast_name(),cust.getEmail(),cust.getGender(),food,cust.getCityFrom(),cust.getCityTo(),imageByte,cust.getId());
+		}else {
+			jdbcTemplate.update(sql,cust.getFirst_name(),cust.getLast_name(),cust.getEmail(),cust.getGender(),food,cust.getCityFrom(),cust.getCityTo(),cust.getId());
+		}
 	}
 
 	@Override
@@ -95,5 +114,11 @@ public class customerDaoImpl implements customerDao {
 			}
 		});
 		
+	}
+	@Override
+	public byte[] getImageById(int id) {
+		String sql ="SELECT profile FROM customer WHERE id=?";
+		Object[] args = {id};
+		return jdbcTemplate.queryForObject(sql, args, byte[].class);		
 	}	
 }

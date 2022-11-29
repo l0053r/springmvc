@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page isELIgnored="false" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ page isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -22,6 +22,7 @@
 					<th>Food</th>
 					<th>CityFrom</th>
 					<th>CityTo</th>
+					<th>Profile</th>
 					<th>Action</th>
 				</tr>
 				<c:forEach var="cust" items="${customerlist }">
@@ -31,15 +32,17 @@
 						<td>${cust.last_name }</td>
 						<td>${cust.email }</td>
 						<td>${cust.gender }</td>
-						<td><c:forEach var="meals" items="${cust.food }">
-							${meals }<br>
-						</c:forEach>
-						</td>
+						<td><c:forEach var="meal" items="${cust.food }">
+							${meal }<br>
+							</c:forEach></td>
 						<td>${cust.cityFrom }</td>
 						<td>${cust.cityTo }</td>
-						<td><a href="editcust/${cust.id}">Edit</a><br>
-						<a href="deletecust/${cust.id}">Delete</a></td>
-					</tr>					
+						<td><img
+							src="<c:url value="getImageById/${cust.id }"></c:url>"
+							style="width: 100px; height: 100px;" /></td>
+						<td><a href="editcust/${cust.id }">Edit</a><br> <a
+							href="deletecust/${cust.id }">Delete</a></td>
+					</tr>
 				</c:forEach>
 			</c:when>
 			<c:otherwise>				

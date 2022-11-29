@@ -3,6 +3,7 @@ package com.karan.springmvc.resultsetExtractor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -23,9 +24,7 @@ public class customerResultSetExtractor implements ResultSetExtractor<List<custo
 			cst.setGender(rs.getString("gender"));
 			String food = rs.getString("food");			
 			String[] lst = null;
-			if(food != null) {
-				food.replace('{', ' ');
-				food.replace('}', ' ');
+			if(food != null) {			
 				lst = food.split(",");
 			}
 			cst.setFood(lst);

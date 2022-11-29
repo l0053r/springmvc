@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page isELIgnored="false" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
 <title>SpringMVC</title>
 </head>
 <body>
-<form:form method="post" modelAttribute="customer" action="addcustomer">
+<form:form method="post" modelAttribute="customer" action="addcustomer" enctype = "multipart/form-data">
 	<table>
 		<tr>
 			<td>FirstName:</td>
@@ -23,7 +24,6 @@
 			<td>Email:</td>
 			<td><form:input path="email"/></td>
 		</tr>
-		<tr>
 		<tr>
 			<td>Gender:</td>
 			<td>Male<form:radiobutton path="gender" value="Male"/></td>
@@ -52,11 +52,16 @@
 			</form:select></td>
 		</tr>
 		<tr>
-			<td></td>
-			<td><input type="submit" value="Save"></td>
+			<td>photo:</td>
+			<td><input type="file" name="file" ></td>
 		</tr>
-		<c:if test="${not empty message }">
-			${message }
+		<tr>
+			<td></td>
+			<td><button type="submit">save</button></td>
+			<td><a href="viewcustomer"><button type="button">view</button></a></td>
+		</tr>
+		<c:if test="${not empty msg }">
+			${msg }
 		</c:if>
 	</table>
 </form:form>

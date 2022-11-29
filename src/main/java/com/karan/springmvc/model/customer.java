@@ -1,5 +1,7 @@
 package com.karan.springmvc.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class customer {
 	private int id;
 	private String first_name;
@@ -9,7 +11,8 @@ public class customer {
 	private String[] food;
 	private String cityFrom;
 	private String cityTo;
-	
+	private MultipartFile file;
+		
 	public int getId() {
 		return id;
 	}
@@ -57,6 +60,12 @@ public class customer {
 	}
 	public void setCityTo(String cityTo) {
 		this.cityTo = cityTo;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	
 }

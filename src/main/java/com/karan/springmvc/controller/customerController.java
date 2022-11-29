@@ -1,9 +1,10 @@
 package com.karan.springmvc.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.karan.springmvc.model.customer;
 import com.karan.springmvc.service.customerService;
@@ -23,51 +24,75 @@ import com.karan.springmvc.service.customerService;
 public class customerController {
 	@Autowired
 	private customerService customerServiceImpl;
-	
-	@RequestMapping(value = "/viewcustomer",method = RequestMethod.GET)	
-	public String getcustomer(Model model) {		
+
+	@RequestMapping(value = "/viewcustomer", method = RequestMethod.GET)
+	public String getcustomer(Model model) {
 		List<customer> cst = customerServiceImpl.getCustomerList();
-		model.addAttribute("customerlist",cst);
+		model.addAttribute("customerlist", cst);
 		return "customerView";
 	}
-	
-	@RequestMapping(value = "/customerform",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/customerform", method = RequestMethod.GET)
 	public String addpage(Model model) {
-		customer Customer = new customer();
-		model.addAttribute("customer",Customer);
+		model.addAttribute("customer", new customer());
 		return "customerForm";
 	}
-	
-	@RequestMapping(value = "/addcustomer",method = RequestMethod.POST)
-	public String addcustomer(@ModelAttribute("customer") customer cust) {		
-		customerServiceImpl.addCustomer(cust);
-		return "redirect:customerform";
+
+	@RequestMapping(value = "/addcustomer", method = RequestMethod.POST)
+	public String addcustomer(@ModelAttribute("customer") customer cust,Model m) throws IOException {
+		String [] str = cust.getFood();
+		System.out.println("food"+str[1]);
+		int i = customerServiceImpl.addCustomer(cust);
+		System.out.println(i);
+		switch (i) {
+		case 0:
+			m.addAttribute("msg", "something went wrong");
+			break;
+		case 1:
+			m.addAttribute("msg", "data updated successfully");
+			break;
+		case 2:
+			m.addAttribute("msg", "photo size should be not more than 50KB");
+			break;
+		default:
+			break;
+		}
+		m.addAttribute("customer", new customer());
+		return "customerForm";
 	}
-	
-	@RequestMapping(value = "/editcust/{id}",method = RequestMethod.GET)
-	public String getcustomerbyid(@PathVariable int id,Model model) {
-		customer cust =  customerServiceImpl.getcustoemr(id);
-		model.addAttribute("customer",cust);
+
+	@RequestMapping(value = "/editcust/{id}", method = RequestMethod.GET)
+	public String getcustomerbyid(@PathVariable int id, Model model) {
+		customer cust = customerServiceImpl.getcustoemr(id);
+		model.addAttribute("customer", cust);
 		return "customerEdit";
 	}
-	
-	@RequestMapping(value = "/editcust/editcustomer",method = RequestMethod.POST)
-	public String updatecustomer(@ModelAttribute("customer") customer cust) {		
+
+	@RequestMapping(value = "/editcust/editcustomer", method = RequestMethod.POST)
+	public String updatecustomer(@ModelAttribute("customer") customer cust) throws IOException {
 		customerServiceImpl.updateCustomer(cust);
 		return "redirect:/viewcustomer";
 	}
-	
-	@RequestMapping(value = "/deletecust/{id}",method = RequestMethod.GET)
-	public String deletecustomerbyid(@PathVariable int id,Model model) {
+
+	@RequestMapping(value = "/deletecust/{id}", method = RequestMethod.GET)
+	public String deletecustomerbyid(@PathVariable int id, Model model) {
 		customerServiceImpl.deleteCustomer(id);
 		return "redirect:/viewcustomer";
 	}
-	
+
 	@RequestMapping("/op")
-	public String getop(Model model) {		
+	public String getop(Model model) {
 		List<String> list = new ArrayList<String>();
-		list = customerServiceImpl.getlist(); 
-		model.addAttribute("list",list);
+		list = customerServiceImpl.getlist();
+		model.addAttribute("list", list);
 		return "test";
+	}
+
+	@RequestMapping(value = "/getImageById/{id}", method = RequestMethod.GET)
+	public void getImageById(@PathVariable int id, HttpServletResponse response, Model model) throws IOException {
+		byte[] imageBytes = customerServiceImpl.getImageById(id);
+		response.setContentType("image/jpg");
+		OutputStream out = response.getOutputStream();
+		out.write(imageBytes);
 	}
 }

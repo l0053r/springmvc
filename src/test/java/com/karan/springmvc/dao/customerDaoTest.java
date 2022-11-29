@@ -3,12 +3,14 @@ package com.karan.springmvc.dao;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.karan.springmvc.model.customer;
 
@@ -42,7 +44,7 @@ class customerDaoTest {
 	}
 
 	@Test
-	void testAddCustomer() {
+	void testAddCustomer() throws IOException {
 		customer cust = new customer();
 		cust.setFirst_name("aaa");
 		cust.setLast_name("thota");
@@ -64,7 +66,7 @@ class customerDaoTest {
 	}
 
 	@Test
-	void testUpdateCustomer() {
+	void testUpdateCustomer() throws IOException {
 		customer cust = new customer();
 		cust.setId(7);
 		cust.setFirst_name("karan");
