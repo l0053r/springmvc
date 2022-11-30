@@ -23,12 +23,7 @@ public class customerServiceImpl implements customerService {
 	@Override
 	public int addCustomer(customer cmr) throws IOException {
 		
-		System.out.println(cmr.getFile().getSize());
-		if(cmr.getFile().getSize()<=50000) {
 			return customerDaoImpl.addCustomer(cmr);
-		}else {
-			return 2;
-		}
 	}
 
 	@Override

@@ -6,29 +6,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.karan.springmvc.model.customer;
 import com.karan.springmvc.service.customerService;
+import com.karan.springmvc.validator.customerValidator;
 
 @Controller
 public class customerController {
+	private static Logger log = Logger.getLogger(customerController.class);
+	@Autowired
+	private customerValidator customerValidator;
 	@Autowired
 	private customerService customerServiceImpl;
+	
 
 	@RequestMapping(value = "/viewcustomer", method = RequestMethod.GET)
 	public String getcustomer(Model model) {
+		log.debug("Inside getcustomer method");
 		List<customer> cst = customerServiceImpl.getCustomerList();
 		model.addAttribute("customerlist", cst);
+		log.info("result success");
 		return "customerView";
 	}
 
@@ -39,9 +47,11 @@ public class customerController {
 	}
 
 	@RequestMapping(value = "/addcustomer", method = RequestMethod.POST)
-	public String addcustomer(@ModelAttribute("customer") customer cust,Model m) throws IOException {
-		String [] str = cust.getFood();
-		System.out.println("food"+str[1]);
+	public String addcustomer( @ModelAttribute("customer") @Valid customer cust, BindingResult result, Model m) throws IOException {
+		customerValidator.validate(cust, result);
+		if(result.hasErrors()) {
+			return "customerForm";
+		}
 		int i = customerServiceImpl.addCustomer(cust);
 		System.out.println(i);
 		switch (i) {
@@ -50,11 +60,6 @@ public class customerController {
 			break;
 		case 1:
 			m.addAttribute("msg", "data updated successfully");
-			break;
-		case 2:
-			m.addAttribute("msg", "photo size should be not more than 50KB");
-			break;
-		default:
 			break;
 		}
 		m.addAttribute("customer", new customer());

@@ -46,8 +46,8 @@ public class customerDaoImpl implements customerDao {
 		String food = Arrays.toString(cmr.getFood());
 		food = food.replace("[", "");
 		food = food.replace("]", "");
-		String sql = "INSERT INTO customer(first_name,last_name,email,gender,food,cityfrom,cityto,profile) values(?,?,?,?,?,?,?,?)";
-		Object[] arg = {cmr.getFirst_name(),cmr.getLast_name(),cmr.getEmail(),cmr.getGender(),food,cmr.getCityFrom(),cmr.getCityTo(),photByte};
+		String sql = "INSERT INTO customer(first_name,last_name,email,gender,food,cityfrom,cityto,profile,confirm_date) values(?,?,?,?,?,?,?,?,?)";
+		Object[] arg = {cmr.getFirst_name(),cmr.getLast_name(),cmr.getEmail(),cmr.getGender(),food,cmr.getCityFrom(),cmr.getCityTo(),photByte,cmr.getConfirm_date()};
 		k = jdbcTemplate.update(sql, arg);
 		return k;
 	}
@@ -78,17 +78,14 @@ public class customerDaoImpl implements customerDao {
 		String food = Arrays.toString(cust.getFood());
 		food = food.replace("[", "");
 		food = food.replace("]", "");
-		String sql = "UPDATE customer SET first_name=?,last_name=?,email=?,gender=?,food=?,cityfrom=?,cityto=?";
-		System.out.println(cust.getFile());
-		byte [] imageByte = null;
-		if(cust.getFile()!=null) {
-			imageByte = cust.getFile().getBytes();
-			sql = sql +",profile=?";			
-		};
-		sql= sql+" WHERE id=?";
-		if(cust.getFile()!=null) {
+		String sql = "";
+		//System.out.println(cust.getFile().getOriginalFilename()+" ::"+cust.getFile().getSize());
+		if(cust.getFile().getSize()>0) {
+			byte[] imageByte = cust.getFile().getBytes();
+			sql = "UPDATE customer SET first_name=?,last_name=?,email=?,gender=?,food=?,cityfrom=?,cityto=?,profile=? WHERE id=?";
 			jdbcTemplate.update(sql,cust.getFirst_name(),cust.getLast_name(),cust.getEmail(),cust.getGender(),food,cust.getCityFrom(),cust.getCityTo(),imageByte,cust.getId());
 		}else {
+			sql = "UPDATE customer SET first_name=?,last_name=?,email=?,gender=?,food=?,cityfrom=?,cityto=? WHERE id=?";
 			jdbcTemplate.update(sql,cust.getFirst_name(),cust.getLast_name(),cust.getEmail(),cust.getGender(),food,cust.getCityFrom(),cust.getCityTo(),cust.getId());
 		}
 	}

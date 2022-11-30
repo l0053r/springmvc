@@ -1,16 +1,36 @@
 package com.karan.springmvc.model;
 
+import java.util.Date;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 public class customer {
 	private int id;
+	@NotNull(message = "first name required")
+	@Size(min=1,message="first name required")
 	private String first_name;
+	@NotNull(message = "last name required")
+	@Size(min=1,message = "last name required")
 	private String last_name;
+	@NotEmpty(message = "email is required")
+	@Email(message = "enter valid email address")
 	private String email;
+	@NotNull(message = "gender is required")
 	private String Gender;
 	private String[] food;
 	private String cityFrom;
 	private String cityTo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "date is required")
+	@Past(message = "invalid date!")
+	private Date confirm_date;
 	private MultipartFile file;
 		
 	public int getId() {
@@ -60,6 +80,12 @@ public class customer {
 	}
 	public void setCityTo(String cityTo) {
 		this.cityTo = cityTo;
+	}
+	public Date getConfirm_date() {
+		return confirm_date;
+	}
+	public void setConfirm_date(Date confirm_date) {
+		this.confirm_date = confirm_date;
 	}
 	public MultipartFile getFile() {
 		return file;

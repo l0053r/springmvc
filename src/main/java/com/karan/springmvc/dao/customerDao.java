@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.karan.springmvc.model.customer;
 

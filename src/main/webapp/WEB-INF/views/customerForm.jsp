@@ -8,26 +8,30 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SpringMVC</title>
+<style type="text/css">
+	.error{color: red}
+</style>
 </head>
 <body>
 <form:form method="post" modelAttribute="customer" action="addcustomer" enctype = "multipart/form-data">
 	<table>
 		<tr>
 			<td>FirstName:</td>
-			<td><form:input path="first_name"/></td>
+			<td><form:input path="first_name"/><form:errors path="first_name" cssClass="error" /></td>
 		</tr>
 		<tr>
 			<td>Lastname:</td>
-			<td><form:input path="last_name"/></td>
+			<td><form:input path="last_name"/><form:errors path="last_name" cssClass="error" /></td>
 		</tr>
 		<tr>
 			<td>Email:</td>
-			<td><form:input path="email"/></td>
+			<td><form:input path="email"/><form:errors path="email" cssClass="error" /></td>
 		</tr>
 		<tr>
-			<td>Gender:</td>
-			<td>Male<form:radiobutton path="gender" value="Male"/></td>
-			<td>Female<form:radiobutton path="gender" value="Female"/></td>
+			<td>Gender:<form:errors path="Gender" cssClass="error" /></td>
+			<td>Male<form:radiobutton path="Gender" value="Male"/></td>
+			<td>Female<form:radiobutton path="Gender" value="Female"/></td>
+			
 		</tr>
 		<tr>
 			<td>Meals:</td>
@@ -52,8 +56,14 @@
 			</form:select></td>
 		</tr>
 		<tr>
+			<td>Date:</td>
+			<td><input type="date" name="confirm_date" /></td>
+			<td><form:errors path="confirm_date" cssClass="error" /></td>
+		</tr>
+		<tr>
 			<td>photo:</td>
 			<td><input type="file" name="file" ></td>
+			<td><form:errors path="file" cssClass="error" /></td>
 		</tr>
 		<tr>
 			<td></td>
